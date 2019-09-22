@@ -20,8 +20,8 @@ def arithmetic(a, b, ch):
 
 def get_data():
     try:
-        a = float(input())
-        b = float(input())
+        a = float(input('Enter first number: '))
+        b = float(input('Enter second number: '))
     except ValueError:
         print('It is not integer!')
         exit(1)
