@@ -1,7 +1,7 @@
 def is_year_leap(year):
-    if year % 4:
-        return False
-    else:
+    if not (year % 400):
+        return True
+    if not (year % 4) and year % 100:
         return True
 
 
