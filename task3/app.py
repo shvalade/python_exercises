@@ -4,7 +4,7 @@ import math
 def square(length):
     P = 4 * length
     S = length**2
-    diag = length * math.sqrt(2)
+    diag = length * 2**0.5
     res = (P, S, diag)
     return res
 
