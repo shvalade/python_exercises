@@ -26,8 +26,9 @@ def arithmetic(a, b, ch):
 def is_year_leap(year):
     if not (year % 400):
         return True
-    if not (year % 4) and year % 100:
+    if (not (year % 4)) and year % 100:
         return True
+    return False
 
 
 # Написать функцию square, принимающую 1 аргумент — сторону квадрата, и возвращающую 3 значения (с помощью кортежа):
@@ -124,75 +125,144 @@ def cups():
 
 
 # Написать метод который принимет два числа a, b и возвращает все числа Фибоначчи на отрезке [a, b]
-def fibo():
-    pass
+def fibo(a, b):
+    x0 = 0
+    x1 = 1
+    res = []
+    while x1 < b:
+        temp = x1
+        x1 += x0
+        x0 = temp
+        if a <= x1 <= b: res.append(x1)
+    return res
 
 
 # получить список всех нечётных чисел от 0 до 100
 # со звёздочкой - сделайте это в одну строку
 def non_pair():
-    pass
+    #for i in range(1, 100, 2): print(i)
+    return [num for num in range(1, 100, 2)]
 
 
 # напишите метод, который принимает на вход два параметра: a и b
 # если тип обоих переменных (a и b) - int, вывести большее из них
 # если тип обоих переменных строка - сообщить, является ли строка b подстрокой строки a
 # если переменные разного типа, вывести сообщение об ошибке (любое)
-def custom_compare():
-    pass
+def custom_compare(a,b):
+    if type(a) == int and type(b) == int:
+        if a < b:
+            return b
+        else:
+            return a
+    elif type(a) == str and type(b) == str:
+        if a.find(b) == -1:
+            return "Doesn't contains given substring"
+        else:
+            return 'Contains given substring!'
+    return 'Error!'
 
 
 # Напишіть функцію, яка приймає на вхід три параметри: початковий рік (a), кінцевий рік (b), список років (c).
 # Функція має повертати список високосних років між а і b, крім вказаних у списку c
-def interval_year_leap():
-    pass
+def interval_year_leap(start, end, list_year):
+    if is_year_leap(start):
+        pass
+    else:
+        start += 4 - start % 4
+    res = []
+    while start <= end:
+        if is_year_leap(start) and start not in list_year:
+            res.append(start)
+        start += 4
+    return res
 
 
 # Найти сумму элементов массива
-def array_sum():
-    pass
+def array_sum(arr):
+    res = 0
+    for i in arr: res += i
+    return res
+#array_sum = sum
 
 
 # Найти максимальный элемент, значение и индекс
-def array_max():
-    pass
+def array_max(arr):
+    res, indx = arr[0], 0
+    for i in arr:
+        if res < i:
+            res = i
+            indx = arr.index(i)
+    return res, indx
+#array_max = max
 
 
 # Найти минимальный элемент, значение и индекс
-def array_min():
-    pass
-
+def array_min(arr):
+    res, indx = arr[0], 0
+    for i in arr:
+        if res > i:
+            res = i
+            indx = arr.index(i)
+    return res, indx
+#array_min = min
 
 # Посчитать количество элементов больше нуля
-def more_that_zero():
-    pass
+def more_that_zero(arr):
+    res = 0
+    for i in arr:
+        if i > 0: res += 1
+    return res
 
 
 # Прибавить к элементам массива их индекс
-def add_index():
-    pass
+def add_index(arr):
+    for i in range(arr.__len__()):
+        arr[i] += i
+    return arr
 
 
 # Циклический сдвиг элементов массива на k- позиций вправо
-def right_shift():
-    pass
+def right_shift(arr, k):
+    res = []
+    for i in range(len(arr)):
+        res.append(arr[i - k])
+    return res
 
 
 # Вывести элементы одного массива, которые не равны элементам второго массива.
-def exception():
-    pass
+def exception(arr1, arr2):
+    res = []
+    for i in arr1:
+        if i not in arr2:
+            res.append(i)
+    return res
 
 
 # Из двух отсортированных массивов сделать третий отсортированный, не сортируя его.
-def sort():
-    pass
+def sort(arr1, arr2):
+    res = []
+    i1, i2 = 0, 0
+    while i1 + i2 < len(arr1) + len(arr2):
+        if i1 < len(arr1) and arr1[i1] < arr2[i2]:
+            res.append(arr1[i1])
+            i1 += 1
+        elif i2 < len(arr2) and arr1[i1] > arr2[i2]:
+            res.append(arr2[i2])
+            i2 += 1
+        else:
+            try:
+                res.append(arr1[i1])
+            except:
+                res.append(arr2[i2])
+            i1 += 1
+            i2 += 1
+    return res
 
 
 def main():
-    cripted = XOR_cipher('Hello World!))))', 'qwerty123456789')
-    print(cripted)
-    decripted = XOR_uncipher(cripted, 'qwerty123456789')
-    print(decripted)
+    #list1 = [34, 22, 55, 1]
+    print(sort([22, 33, 34, 39, 54], [23, 33, 39, 50, 59]))
+    #print(right_shift([1, 2, 3, 4, 5, 6], 4))
     pass
 
 
