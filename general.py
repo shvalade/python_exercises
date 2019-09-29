@@ -206,6 +206,7 @@ def array_min(arr):
     return res, indx
 #array_min = min
 
+
 # Посчитать количество элементов больше нуля
 def more_that_zero(arr):
     res = 0
@@ -242,21 +243,32 @@ def exception(arr1, arr2):
 def sort(arr1, arr2):
     res = []
     i1, i2 = 0, 0
-    while i1 + i2 < len(arr1) + len(arr2):
-        if i1 < len(arr1) and arr1[i1] < arr2[i2]:
-            res.append(arr1[i1])
-            i1 += 1
-        elif i2 < len(arr2) and arr1[i1] > arr2[i2]:
-            res.append(arr2[i2])
-            i2 += 1
-        else:
-            try:
+    for i1 in range(len(arr1)):
+        for i2 in range(len(arr2)):
+            if arr1[i1] < arr2[i2]:
                 res.append(arr1[i1])
-            except:
+                i1+=1
+            else:
                 res.append(arr2[i2])
-            i1 += 1
-            i2 += 1
+                i2+=1
     return res
+
+
+    # while i1 + i2 < len(arr1) + len(arr2):
+    #     if i1 < len(arr1) and arr1[i1] < arr2[i2]:
+    #         res.append(arr1[i1])
+    #         i1 += 1
+    #     elif i2 < len(arr2) and arr1[i1] > arr2[i2]:
+    #         res.append(arr2[i2])
+    #         i2 += 1
+    #     else:
+    #         try:
+    #             res.append(arr1[i1])
+    #         except:
+    #             res.append(arr2[i2])
+    #         i1 += 1
+    #         i2 += 1
+    # return res
 
 
 def main():
