@@ -67,7 +67,7 @@ def bank(a, years):
 def is_prime(numb):
     if numb == 1:
         return False
-    for i in range(2, numb // 2):
+    for i in range(2, int(numb**0.5)):
         if not (numb % i):
             return False
     return True
@@ -106,8 +106,7 @@ def date(day, month, year):
 #     return res
 
 def XOR_cipher(string, key):
-    if len(string) % len(key):
-        key *= len(string) // len(key) + 1
+    key *= len(string) // len(key) + 1
     res = ''
     for a, b in zip(string, key):
         res += chr(ord(a) ^ ord(b))
