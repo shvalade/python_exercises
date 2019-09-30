@@ -1,6 +1,6 @@
 #!/bin/python3
 import socket
-
+import pickle
 
 def main():
     HEADERSIZE = 10
@@ -10,7 +10,7 @@ def main():
 
     while 1:
 
-        full_msg = ''
+        full_msg = b''
         new_msg = True
         while 1:
             msg = s.recv(16)
@@ -19,13 +19,16 @@ def main():
                 msglen = int(msg[:HEADERSIZE])
                 new_msg = False
 
-            full_msg += msg.decode("utf-8")
+            full_msg += msg
 
             if len(full_msg)-HEADERSIZE == msglen:
                 print("full msg recvd")
                 print(full_msg[HEADERSIZE:])
+
+                d = pickle.loads(full_msg[HEADERSIZE:])
+                print(d)
                 new_msg = True
-                full_msg = ''
+                full_msg = b''
 
         print(full_msg)
 
