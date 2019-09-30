@@ -120,9 +120,16 @@ XOR_uncipher = XOR_cipher
 # Світлана замовляє чашки для співробітників, на яких мають бути надруковані імена.
 # Напишіть будь ласка функцію, що приймає на вхід список людей, у якому кожна людина описана як словник
 # ключами “name”, “surname”. А повертає структуру з іменами і кількістю чашок які потрібно замовити.
-def cups():
-    pass
-
+def cups(arr_dict):
+    names = []
+    counters = []
+    for i in arr_dict:
+        if i.__getitem__('name') not in names:
+            names.append(i.__getitem__('name'))
+            counters.append(1)
+        else:
+            counters[names.index(i.__getitem__('name'))] += 1
+    return dict(zip(names, counters))
 
 # Написать метод который принимет два числа a, b и возвращает все числа Фибоначчи на отрезке [a, b]
 def fibo(a, b):
@@ -243,39 +250,39 @@ def exception(arr1, arr2):
 def sort(arr1, arr2):
     res = []
     i1, i2 = 0, 0
-    for i1 in range(len(arr1)):
-        for i2 in range(len(arr2)):
+    while i1 + i2 < len(arr1) + len(arr2):
+        if i1 < len(arr1) and i2 >= len(arr2):
+            res.append(arr1[i1])
+            i1 += 1
+        elif i1 >= len(arr1) and i2 < len(arr2):
+            res.append(arr2[i2])
+            i2 += 1
+        else:
             if arr1[i1] < arr2[i2]:
                 res.append(arr1[i1])
-                i1+=1
+                i1 += 1
             else:
                 res.append(arr2[i2])
-                i2+=1
+                i2 += 1
     return res
-
-
-    # while i1 + i2 < len(arr1) + len(arr2):
-    #     if i1 < len(arr1) and arr1[i1] < arr2[i2]:
-    #         res.append(arr1[i1])
-    #         i1 += 1
-    #     elif i2 < len(arr2) and arr1[i1] > arr2[i2]:
-    #         res.append(arr2[i2])
-    #         i2 += 1
-    #     else:
-    #         try:
-    #             res.append(arr1[i1])
-    #         except:
-    #             res.append(arr2[i2])
-    #         i1 += 1
-    #         i2 += 1
-    # return res
 
 
 def main():
     #list1 = [34, 22, 55, 1]
-    print(sort([22, 33, 34, 39, 54], [23, 33, 39, 50, 59]))
+    #print(sort([22, 33, 34, 39, 54], [23, 33, 39, 50, 59]))
     #print(right_shift([1, 2, 3, 4, 5, 6], 4))
-    pass
+    names = (
+        {'name': 'Vasiliy', 'surname': 'Vasilyevich'},
+        {'name': 'Ivan', 'surname': 'Ivanov'},
+        {'name': 'Vladimir', 'surname': 'Ivanov'},
+        {'name': 'Ivan', 'surname': 'Hills'},
+        {'name': 'Vladimir', 'surname': 'Ivanov'},
+        {'name': 'Vladimir', 'surname': 'Ivanov'},
+        {'name': 'Vladimir', 'surname': 'Ivanov'},
+        {'name': 'Vladimir', 'surname': 'Ivanov'},
+        {'name': 'Vladimir', 'surname': 'Ivanov'}
+    )
+    print(cups(names))
 
 
 if __name__ == '__main__':
