@@ -7,7 +7,7 @@ def main():
     HEADERSIZE = 10
 
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    s.bind((socket.gethostname(), 1235))
+    s.bind((socket.gethostname(), 1234))
     s.listen()
     while 1:
         client_socket, address = s.accept()
