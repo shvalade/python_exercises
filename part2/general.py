@@ -12,6 +12,11 @@ class Figure(ABC):
 
 
 class Ellipse(Figure):
+    def __init__(self, major_axis, minor_axis):
+        self.major_axis = major_axis
+        self.minor_axis = major_axis
+
+
     def area(self):
         pass
 
