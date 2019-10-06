@@ -90,9 +90,11 @@ res_str = '0 '
 counter = 1
 class Tree(object):
 
-    def __init__(self):
+    def __init__(self, deep):
         self.one = None
         self.two = None
+        self.deep = deep
+        self.links = [None, None, None, None]
         self.data = None
         self.address = None
 
@@ -123,54 +125,48 @@ class Tree(object):
         counter1 = 0
         while queue:
             current = queue.pop()
-            if current.get('key').one is not None:
-                counter1 += 1
-                queue.insert(0, {'key': current.get('key').one, 'addr': current.get('addr') + f'{counter1} '})
-                print(queue[0].get('addr'))
-            if current.get('key').two is not None:
-                counter1 += 1
-                queue.insert(0, {'key': current.get('key').two, 'addr': current.get('addr') + f'{counter1} '})
-                print(queue[0].get('addr'))
+            try:
+                for i in range(len(current.get('key').links)):
+                    if current.get('key').links[i] is not None:
+                        counter1 += 1
+                        queue.insert(0, {'key': current.get('key').links[i], 'addr': current.get('addr') + f'{counter1} '})
+                        print(queue[0].get('addr'))
+            except:
+                pass
 
 
 temp_glob = 0
 temp_str = '0 '
-def gen(a: Tree, deep: int):
-    global temp_glob, temp_str
-    #temp_glob += 1
 
+
+def gen(a: Tree, deep: int, links: int):
+    global temp_glob, temp_str
     a.data = temp_glob
     print(a.address)
     if deep == 0:
-        a.one = None
-        a.two = None
-
+        a.links = None
     else:
-        time.sleep(0.09)
-        if int(random.random()*1000) % 2:
-            a.one = Tree()
-            temp_temp = temp_str
-            temp_str += str(7-deep) + ' '
-            a.one.address = temp_str
-            temp_glob += 1
-            gen(a.one, deep-1)
-            temp_str = temp_temp
+        #time.sleep(0.01)
+        for i in range(links):
+            if int(random.random() * 2000) % 2:
+                a.links[i] = Tree(0)
+                temp_temp = temp_str
+                temp_str += str(11 - deep) + ' '
+                a.links[i].address = temp_str
+                temp_glob += 1
+                gen(a.links[i], deep - 1, links)
+                temp_str = temp_temp
+            else:
+                a.links[i] = None
 
-        else:
-            a.one = None
-        time.sleep(0.11)
-        if int(random.random()*1000) % 2:
-            a.two = Tree()
-            temp_temp = temp_str
-            temp_str += str(7-deep) + ' '
-            a.two.address = temp_str
-            temp_glob += 1
-            gen(a.two, deep-1)
-            temp_str = temp_temp
-        else:
-            a.two = None
-        # a.two = Tree()
-        # gen(a.two, deep-1)
+
+class Logger(object):
+    pass
+
+
+class Elevator(object):
+    def __init__(self, N):
+        pass
 
 
 class BrokenCalc(object):
@@ -201,13 +197,11 @@ class BrokenCalc(object):
 
 
 def main():
-
-    #a, b, c = BrokenCalc(1), BrokenCalc(55), BrokenCalc(92)
-    print(BrokenCalc.pow(2, 5))
-    # root = Tree()
-    # gen(root, 6)
-    # print('\n\n')
-    # root.breadth_search(root)
+    #print(BrokenCalc.pow(2, 5))
+    root = Tree(10)
+    gen(root, 10, 4)
+    print('\n\n')
+    root.breadth_search(root)
     # root.data = f'{root}'
     # root.one = Tree()
     # root.two = Tree()
