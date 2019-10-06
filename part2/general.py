@@ -174,14 +174,40 @@ def gen(a: Tree, deep: int):
 
 
 class BrokenCalc(object):
-    pass
+    @staticmethod
+    def add(*args):
+        n = args[0]
+        for i in args[1:]:
+            n -= i
+        return n
+
+    @staticmethod
+    def sub(*args):
+        n = args[0]
+        for i in args[1:]:
+            n += i
+        return n
+
+    @staticmethod
+    def mul(*args):
+        res = ''
+        for i in args:
+            res += f'{i}'
+        return res
+
+    @staticmethod
+    def pow(x, y):
+        return pow(y, x)
 
 
 def main():
-    root = Tree()
-    gen(root, 6)
-    print('\n\n')
-    root.breadth_search(root)
+
+    #a, b, c = BrokenCalc(1), BrokenCalc(55), BrokenCalc(92)
+    print(BrokenCalc.pow(2, 5))
+    # root = Tree()
+    # gen(root, 6)
+    # print('\n\n')
+    # root.breadth_search(root)
     # root.data = f'{root}'
     # root.one = Tree()
     # root.two = Tree()
