@@ -2,6 +2,7 @@ from abc import ABC, abstractmethod
 import math
 import random
 import time
+import datetime
 
 
 class Figure(ABC):
@@ -90,11 +91,8 @@ res_str = '0 '
 counter = 1
 class Tree(object):
 
-    def __init__(self, deep):
-        self.one = None
-        self.two = None
-        self.deep = deep
-        self.links = [None, None, None, None]
+    def __init__(self):
+        self.links = []
         self.data = None
         self.address = None
 
@@ -137,8 +135,7 @@ class Tree(object):
 
 temp_glob = 0
 temp_str = '0 '
-
-
+mainDeep = 5
 def gen(a: Tree, deep: int, links: int):
     global temp_glob, temp_str
     a.data = temp_glob
@@ -148,20 +145,48 @@ def gen(a: Tree, deep: int, links: int):
     else:
         #time.sleep(0.01)
         for i in range(links):
-            if int(random.random() * 2000) % 2:
-                a.links[i] = Tree(0)
+            if random.randint(0, 1):
+                a.links.append(Tree())
                 temp_temp = temp_str
-                temp_str += str(11 - deep) + ' '
+                temp_str += str(mainDeep + 1 - deep) + ' '
                 a.links[i].address = temp_str
                 temp_glob += 1
-                gen(a.links[i], deep - 1, links)
+                gen(a.links.__getitem__(-1), deep - 1, links)
                 temp_str = temp_temp
             else:
-                a.links[i] = None
+                a.links.append(None)
+
+
+class Handler(object):
+    def __init__(self):
+        pass
 
 
 class Logger(object):
-    pass
+    def __init__(self, stream = '', console = 0):
+        self.status = [5, 10, 20]
+        self.stream = stream
+        self.console = console
+        pass
+
+    def log(self, messages):
+
+        if self.console:
+            if len(messages) <= self.status[0]:
+                print(f'{datetime.datetime.now()} ' + '{I} ' + messages)
+            elif len(messages) <= self.status[1]:
+                print(f'{datetime.datetime.now()} ' + '{W} ' + messages)
+            elif len(messages) <= self.status[2]:
+                print(f'{datetime.datetime.now()} ' + '{E} ' + messages)
+        if self.stream != '':
+            f = open(self.stream, 'a+')
+
+            if len(messages) <= self.status[0]:
+                f.write(f'{datetime.datetime.now()} ' + '{I} ' + f'{messages}\n')
+            elif len(messages) <= self.status[1]:
+                f.write(f'{datetime.datetime.now()} ' + '{W} ' + f'{messages}\n')
+            elif len(messages) <= self.status[2]:
+                f.write(f'{datetime.datetime.now()} ' + '{E} ' + f'{messages}\n')
 
 
 class Elevator(object):
@@ -197,11 +222,15 @@ class BrokenCalc(object):
 
 
 def main():
+    logger = Logger('', 1)
+    logger.log('Hel!')
+    logger.log('Hello!')
+    logger.log('Hello!!!!!!!!')
     #print(BrokenCalc.pow(2, 5))
-    root = Tree(10)
-    gen(root, 10, 4)
-    print('\n\n')
-    root.breadth_search(root)
+    # root = Tree()
+    # gen(root, mainDeep, 3)
+    # print('\n\n')
+    # root.breadth_search(root)
     # root.data = f'{root}'
     # root.one = Tree()
     # root.two = Tree()
