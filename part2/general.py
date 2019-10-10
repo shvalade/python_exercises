@@ -190,7 +190,7 @@ class Logger(object):
 
 
 class Elevator(object):
-    def __init__(self, N):
+    def __init__(self):
         pass
 
 
@@ -215,6 +215,10 @@ class BrokenCalc(object):
         for i in args:
             res += f'{i}'
         return res
+
+    @staticmethod
+    def dev(x, y):
+        return pow(x, y)
 
     @staticmethod
     def pow(x, y):
