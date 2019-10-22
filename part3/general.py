@@ -22,12 +22,12 @@ def main():
     log = logging.basicConfig(level='DEBUG')
 
     api = GuiApi('94.125.123.42', log)
-    #print(api.logger)
     panel = NeoPanel(n, n[2:], 'IP', log, 'HS3248')
     panel.config.host = '94.125.123.42'
     panel.add_device('Contact', 54)
-
-
+    panel.set_device_alarm('tamper', 2, 54)
+    panel.set_device_trouble('tamper', 1, 54)
+    # panel.send_trouble_notification('tamper', 2, 54)
     proc = Running(panel)
     proc.start()
 

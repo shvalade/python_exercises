@@ -4,7 +4,7 @@ import random
 import time
 import datetime
 import keyboard
-
+import multiprocessing
 
 class Figure(ABC):
     @abstractmethod
@@ -194,8 +194,9 @@ class Logger(object):
                 f.write(f'{datetime.datetime.now()} ' + '{E} ' + f'{messages}\n')
 
 
-class Elevator(object):
-    def __init__(self, min_floor = 0, max_floor = 10, max_weight = 300):
+class Elevator(multiprocessing.Process):
+    def __init__(self, min_floor=0, max_floor=10, max_weight=300):
+        super().__init__()
         self.speed = 1
         self.current_floor = 0
         self.min_floor = min_floor
@@ -207,20 +208,29 @@ class Elevator(object):
         self.queue = []
 
     def add_to_queue(self, value):
-        if self.g > 0 and value > self.current_floor:
-            for i in self.queue:
-                if value < i:
-                    self.queue.insert(self.queue.index(i), value)
-                elif value == i:
-                    break
-        elif self.g < 0 and value < self.current_floor:
-            for i in self.queue:
-                if value > i:
-                    self.queue.insert(self.queue.index(i), value)
-                elif value == i:
-                    break
+        self.entry_passengers()
 
-    def entry_passengers(self, count = 0, weight = 0):
+        if self.weight <= self.max_weight:
+
+            if self.current_floor < value <= self.max_floor:
+                self.g = self.speed
+                for i in self.queue:
+                    if value < i:
+                        self.queue.insert(self.queue.index(i), value)
+                    elif value == i:
+                        break
+
+            elif self.current_floor > value >= self.min_floor:
+                self.g = -self.speed
+                for i in self.queue:
+                    if value > i:
+                        self.queue.insert(self.queue.index(i), value)
+                    elif value == i:
+                        break
+        else:
+            print(f'Overweight! {self.weight} more than {self.max_weight}')
+
+    def entry_passengers(self, count=0, weight=0):
         self.count_of_people += int(input('Num of input passengers :'))
         self.weight += float(input('Total weight :'))
 
@@ -232,25 +242,21 @@ class Elevator(object):
         print(f'Current floor : {self.current_floor}')
         print(f'Total weight : {self.weight}')
 
-    def run(self, level):
-        if self.weight <= self.max_weight:
-            if self.current_floor < level <= self.max_floor: self.g = self.speed
-            elif self.current_floor > level >= self.min_floor: self.g = -self.speed
-        else:
-            print(f'Overweight! {self.weight} more than {self.max_weight}')
-
-        if self.g:
-            for i in range(self.current_floor, level, 1):
-                time.sleep(1)
-                self.current_floor += self.g
-                print(f'Current floor {self.current_floor}')
-            self.g = 0
+    def run(self):
+        while True:
+            if self.g:
+                for i in range(self.current_floor, self.queue.pop(0), 1):
+                    time.sleep(1)
+                    self.current_floor += self.g
+                    print(f'Current floor {self.current_floor}')
+                self.g = 0
 
     def halt_stop(self):
         self.g = 0
 
-    # def live_entry(self, level, count, weight):
-    #     if level <= self.current_floor and self.g
+    def live_entry(self, level, count, weight):
+        self.add_to_queue(level)
+        self.run()
 
 
 
@@ -284,13 +290,6 @@ class BrokenCalc(object):
 def main():
     lift = Elevator()
 
-    while True:
-        if keyboard.
-
-
-
-
-
 
     # logger = Logger('', 1)
     # logger.log('Hel!')
@@ -305,7 +304,38 @@ def main():
     # # root.one = Tree()
     # # root.two = Tree()
     # # print(root.one)
-
-
 if __name__ == '__main__':
     main()
+
+
+
+
+
+
+
+
+# if self.g > 0 and value > self.current_floor:
+#     for i in self.queue:
+#         if value < i:
+#             self.queue.insert(self.queue.index(i), value)
+#         elif value == i:
+#             break
+# elif self.g < 0 and value < self.current_floor:
+#     for i in self.queue:
+#         if value > i:
+#             self.queue.insert(self.queue.index(i), value)
+#         elif value == i:
+#             break
+
+
+
+
+
+
+
+ # if self.weight <= self.max_weight:
+        #     if self.current_floor < level <= self.max_floor: self.g = self.speed
+        #     elif self.current_floor > level >= self.min_floor: self.g = -self.speed
+        # else:
+        #     print(f'Overweight! {self.weight} more than {self.max_weight}')
+        #self.add_to_queue(level)
