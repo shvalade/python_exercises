@@ -3,6 +3,7 @@ import math
 import random
 import time
 import datetime
+import keyboard
 
 
 class Figure(ABC):
@@ -101,20 +102,24 @@ class Tree(object):
         a = self
         global res_str, counter
         # temp_glob += 1
-        if a.one is not None:
-            temp = res_str
-            res_str += str(counter) + ' '
-            counter += 1
-            print(res_str)
-            a.depth_search(a.one)
-            res_str = temp
-        if a.two is not None:
-            temp = res_str
-            res_str += str(counter) + ' '
-            counter += 1
-            print(res_str)
-            a.depth_search(a.two)
-            res_str = temp
+        stack = []
+        while stack:
+            pass
+
+        # if a.one is not None:
+        #     temp = res_str
+        #     res_str += str(counter) + ' '
+        #     counter += 1
+        #     print(res_str)
+        #     a.depth_search(a.one)
+        #     res_str = temp
+        # if a.two is not None:
+        #     temp = res_str
+        #     res_str += str(counter) + ' '
+        #     counter += 1
+        #     print(res_str)
+        #     a.depth_search(a.two)
+        #     res_str = temp
 
     @staticmethod
     def breadth_search(self):
@@ -143,7 +148,7 @@ def gen(a: Tree, deep: int, links: int):
     if deep == 0:
         a.links = None
     else:
-        #time.sleep(0.01)
+        # time.sleep(0.01)
         for i in range(links):
             if random.randint(0, 1):
                 a.links.append(Tree())
@@ -190,8 +195,63 @@ class Logger(object):
 
 
 class Elevator(object):
-    def __init__(self):
-        pass
+    def __init__(self, min_floor = 0, max_floor = 10, max_weight = 300):
+        self.speed = 1
+        self.current_floor = 0
+        self.min_floor = min_floor
+        self.max_floor = max_floor
+        self.weight = 0
+        self.max_weight = max_weight
+        self.g = 0
+        self.count_of_people = 0
+        self.queue = []
+
+    def add_to_queue(self, value):
+        if self.g > 0 and value > self.current_floor:
+            for i in self.queue:
+                if value < i:
+                    self.queue.insert(self.queue.index(i), value)
+                elif value == i:
+                    break
+        elif self.g < 0 and value < self.current_floor:
+            for i in self.queue:
+                if value > i:
+                    self.queue.insert(self.queue.index(i), value)
+                elif value == i:
+                    break
+
+    def entry_passengers(self, count = 0, weight = 0):
+        self.count_of_people += int(input('Num of input passengers :'))
+        self.weight += float(input('Total weight :'))
+
+    def exit_passengers(self, count = 0, weight = 0):
+        self.count_of_people -= int(input('Num of output passengers :'))
+        self.weight -= float(input('Total weight :'))
+
+    def print(self):
+        print(f'Current floor : {self.current_floor}')
+        print(f'Total weight : {self.weight}')
+
+    def run(self, level):
+        if self.weight <= self.max_weight:
+            if self.current_floor < level <= self.max_floor: self.g = self.speed
+            elif self.current_floor > level >= self.min_floor: self.g = -self.speed
+        else:
+            print(f'Overweight! {self.weight} more than {self.max_weight}')
+
+        if self.g:
+            for i in range(self.current_floor, level, 1):
+                time.sleep(1)
+                self.current_floor += self.g
+                print(f'Current floor {self.current_floor}')
+            self.g = 0
+
+    def halt_stop(self):
+        self.g = 0
+
+    # def live_entry(self, level, count, weight):
+    #     if level <= self.current_floor and self.g
+
 
 
 class BrokenCalc(object):
@@ -217,28 +277,34 @@ class BrokenCalc(object):
         return res
 
     @staticmethod
-    def dev(x, y):
-        return pow(x, y)
-
-    @staticmethod
     def pow(x, y):
         return pow(y, x)
 
 
 def main():
-    logger = Logger('', 1)
-    logger.log('Hel!')
-    logger.log('Hello!')
-    logger.log('Hello!!!!!!!!')
-    #print(BrokenCalc.pow(2, 5))
-    # root = Tree()
-    # gen(root, mainDeep, 3)
-    # print('\n\n')
-    # root.breadth_search(root)
-    # root.data = f'{root}'
-    # root.one = Tree()
-    # root.two = Tree()
-    # print(root.one)
+    lift = Elevator()
+
+    while True:
+        if keyboard.
+
+
+
+
+
+
+    # logger = Logger('', 1)
+    # logger.log('Hel!')
+    # logger.log('Hello!')
+    # logger.log('Hello!!!!!!!!')
+    # #print(BrokenCalc.pow(2, 5))
+    # # root = Tree()
+    # # gen(root, mainDeep, 3)
+    # # print('\n\n')
+    # # root.breadth_search(root)
+    # # root.data = f'{root}'
+    # # root.one = Tree()
+    # # root.two = Tree()
+    # # print(root.one)
 
 
 if __name__ == '__main__':
