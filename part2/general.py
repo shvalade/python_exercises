@@ -209,9 +209,16 @@ class Elevator(object):
     def add_to_queue(self, value):
         if self.g > 0 and value > self.current_floor:
             for i in self.queue:
-                if value <= i:
+                if value < i:
                     self.queue.insert(self.queue.index(i), value)
-        pass
+                elif value == i:
+                    break
+        elif self.g < 0 and value < self.current_floor:
+            for i in self.queue:
+                if value > i:
+                    self.queue.insert(self.queue.index(i), value)
+                elif value == i:
+                    break
 
     def entry_passengers(self, count = 0, weight = 0):
         self.count_of_people += int(input('Num of input passengers :'))
@@ -235,15 +242,15 @@ class Elevator(object):
         if self.g:
             for i in range(self.current_floor, level, 1):
                 time.sleep(1)
-                self.current_floor += g
+                self.current_floor += self.g
                 print(f'Current floor {self.current_floor}')
             self.g = 0
 
     def halt_stop(self):
         self.g = 0
 
-    def live_entry(self, level, count, weight):
-        if level <= self.current_floor and self.g
+    # def live_entry(self, level, count, weight):
+    #     if level <= self.current_floor and self.g
 
 
 
